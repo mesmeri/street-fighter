@@ -1,13 +1,17 @@
 import { createElement } from '../helpers/domHelper';
 import { createFighterImage } from './fighterPreview';
+import { fight } from './fight';
+import { showWinnerModal } from './modal/winner'
 
-export function renderArena(selectedFighters) {
+export async function renderArena(selectedFighters) {
   const root = document.getElementById('root');
   const arena = createArena(selectedFighters);
 
   root.innerHTML = '';
   root.append(arena);
 
+  const winner = await fight(...selectedFighters);
+  showWinnerModal(winner)
   // todo:
   // - start the fight
   // - when fight is finished show winner
@@ -65,4 +69,10 @@ function createFighter(fighter, position) {
 
   fighterElement.append(imgElement);
   return fighterElement;
+}
+
+export function reduceHealthIndicator(fighter, position, initialHealth) {
+  const healthIndicator = document.getElementById(`${position}-fighter-indicator`);
+
+  healthIndicator.style.width = fighter.health <= 0 ? '0' : `${Math.trunc(fighter.health / initialHealth * 100)}%`
 }

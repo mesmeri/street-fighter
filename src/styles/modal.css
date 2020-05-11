@@ -30,6 +30,8 @@
 
 .modal-body {
   padding: 1rem;
+  text-align: center;
+  font-size: 2rem;
 }
 
 .close-btn {
